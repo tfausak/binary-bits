@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes, MagicHash, BangPatterns, CPP #-}
+{-# LANGUAGE MagicHash, BangPatterns, CPP #-}
 
 -----------------------------------------------------------------------------
 -- |

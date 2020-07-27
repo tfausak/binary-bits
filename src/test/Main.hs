@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP, FlexibleInstances, FlexibleContexts, TupleSections #-}
+{-# LANGUAGE FlexibleInstances, FlexibleContexts, TupleSections #-}
 
 module Main ( main ) where
 
