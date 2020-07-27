@@ -1,15 +1,4 @@
------------------------------------------------------------------------------
--- |
--- Module      :  Data.Binary.Bits.Put
--- Copyright   :  (c) Lennart Kolmodin 2010-2011
--- License     :  BSD3-style (see LICENSE)
---
--- Maintainer  :  kolmodin@gmail.com
--- Stability   :  experimental
--- Portability :  portable (should run where the package binary runs)
---
--- Put bits easily.
------------------------------------------------------------------------------
+-- | Put bits easily.
 
 module Data.Binary.Bits.Put
           ( BitPut

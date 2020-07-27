@@ -1,16 +1,6 @@
 {-# LANGUAGE MagicHash, BangPatterns, CPP #-}
 
------------------------------------------------------------------------------
--- |
--- Module      :  Data.Binary.Bits.Get
--- Copyright   :  (c) Lennart Kolmodin 2010-2011
--- License     :  BSD3-style (see LICENSE)
---
--- Maintainer  :  kolmodin@gmail.com
--- Stability   :  experimental
--- Portability :  portable (should run where the package binary runs)
---
--- Parse bits easily. Parsing can be done either in a monadic style, or more
+-- | Parse bits easily. Parsing can be done either in a monadic style, or more
 -- efficiently, using the 'Applicative' style.
 --
 -- For the monadic style, write your parser as a 'BitGet' monad using the
@@ -46,7 +36,6 @@
 -- to make a 'Block'.
 -- Use 'block' to turn it into the 'BitGet' monad to be able to run it with
 -- 'runBitGet'.
------------------------------------------------------------------------------
 
 module Data.Binary.Bits.Get
             (
@@ -335,7 +324,6 @@ readWithOffset (S bs o) shifterL shifterR n
                   w = top .|. mseg .|. last
               in w
 
-------------------------------------------------------------------------
 -- | 'BitGet' is a monad, applicative and a functor. See 'runBitGet'
 -- for how to run it.
 newtype BitGet a = B { runState :: S -> Get (S,a) }
@@ -461,7 +449,6 @@ byteString :: Int -> Block ByteString
 byteString n | n > 0 = Block (n*8) (readByteString n)
              | otherwise = Block 0 (\_ -> B.empty)
 
-------------------------------------------------------------------------
 -- Unchecked shifts, from the package binary
 
 shiftl_w16 :: Word16 -> Int -> Word16

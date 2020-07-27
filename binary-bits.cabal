@@ -1,4 +1,3 @@
--- http://www.haskell.org/cabal/release/cabal-latest/doc/users-guide/
 name:                binary-bits
 version:             0.5
 synopsis:            Bit parsing/writing on top of binary.
