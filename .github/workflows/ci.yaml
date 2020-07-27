@@ -23,6 +23,6 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ${{ steps.setup-haskell.outputs.cabal-store }}
-          keys: ${{ matrix.os }}-${{ matrix.ghc }}-${{ matrix.cabal }}-${{ hashFiles('binary-bits.cabal') }}
+          key: ${{ matrix.os }}-${{ matrix.ghc }}-${{ matrix.cabal }}-${{ hashFiles('binary-bits.cabal') }}
           restore-keys: ${{ matrix.os }}-${{ matrix.ghc }}-${{ matrix.cabal }}-
       - run: cabal test --test-show-details direct
