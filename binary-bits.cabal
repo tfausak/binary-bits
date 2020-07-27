@@ -1,40 +1,48 @@
-name:                binary-bits
-version:             0.5
-synopsis:            Bit parsing/writing on top of binary.
-description:         Bit parsing/writing on top of binary. Provides functions to
-                     read and write bits to and from 8\/16\/32\/64 words.
-license:             BSD3
-license-file:        LICENSE
-author:              Lennart Kolmodin <kolmodin@gmail.com>
-maintainer:          Taylor Fausak
-category:            Data, Parsing
-build-type:          Simple
+cabal-version: >= 1.10
 
-cabal-version:       >=1.10
+name: binary-bits
+version: 0.5
+synopsis: Bit parsing/writing on top of binary.
+description:
+  Bit parsing/writing on top of binary. Provides functions to read and write
+  bits to and from 8\/16\/32\/64 words.
+
+author: Lennart Kolmodin
+build-type: Simple
+category: Data, Parsing
+license-file: LICENSE
+license: BSD3
+maintainer: Taylor Fausak
 
 source-repository head
-  type: git
   location: https://github.com/tfausak/binary-bits
+  type: git
 
 library
+  build-depends:
+    base == 4.*
+    , binary >= 0.6.0.0
+    , bytestring
+  default-language: Haskell98
+  exposed-modules:
+    Data.Binary.Bits
+    Data.Binary.Bits.Get
+    Data.Binary.Bits.Put
+  ghc-options:
+    -O2
+    -Wall
   hs-source-dirs: src/lib
-  build-depends: base==4.*, binary >= 0.6.0.0, bytestring
-
-  exposed-modules:     Data.Binary.Bits ,
-                       Data.Binary.Bits.Put ,
-                       Data.Binary.Bits.Get
-
-  default-language:    Haskell98
-
-  ghc-options: -O2 -Wall
 
 test-suite qc
-  type: exitcode-stdio-1.0
+  build-depends:
+    base == 4.*
+    , binary >= 0.6.0.0
+    , binary-bits
+    , bytestring
+    , hspec
+    , QuickCheck >= 2
+    , random
+  default-language: Haskell98
   hs-source-dirs: src/test
   main-is: Main.hs
-  default-language:    Haskell98
-
-  build-depends: base==4.*, binary >= 0.6.0.0, bytestring,
-                 QuickCheck>=2, random,
-                 binary-bits,
-                 hspec
+  type: exitcode-stdio-1.0
