@@ -21,8 +21,6 @@ library
   hs-source-dirs: src/lib
   build-depends: base==4.*, binary >= 0.6.0.0, bytestring
 
-  other-extensions: MagicHash, BangPatterns, CPP
-
   exposed-modules:     Data.Binary.Bits ,
                        Data.Binary.Bits.Put ,
                        Data.Binary.Bits.Get
@@ -41,5 +39,3 @@ test-suite qc
                  QuickCheck>=2, random,
                  binary-bits,
                  hspec
-
-  other-extensions: FlexibleInstances, FlexibleContexts, TupleSections
