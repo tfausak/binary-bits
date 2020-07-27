@@ -6,7 +6,7 @@ description:         Bit parsing/writing on top of binary. Provides functions to
 license:             BSD3
 license-file:        LICENSE
 author:              Lennart Kolmodin <kolmodin@gmail.com>
-maintainer:          Lennart Kolmodin <kolmodin@gmail.com>
+maintainer:          Taylor Fausak
 category:            Data, Parsing
 build-type:          Simple
 
@@ -14,7 +14,7 @@ cabal-version:       >=1.10
 
 source-repository head
   type: git
-  location: git://github.com/kolmodin/binary-bits.git
+  location: https://github.com/tfausak/binary-bits
 
 library
   hs-source-dirs: src/lib
