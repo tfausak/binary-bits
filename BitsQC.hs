@@ -19,109 +19,94 @@ import Data.Word
 import Foreign.Storable
 import System.Random
 
-import Test.Framework.Providers.QuickCheck2 ( testProperty )
-import Test.Framework.Runners.Console ( defaultMain )
-import Test.Framework ( Test, testGroup )
 import Test.QuickCheck
+import Test.Hspec
 
 main :: IO ()
-main = defaultMain tests
+main = hspec tests
 
-tests :: [Test]
-tests =
-  [ testGroup "Internal test functions"
-      [ testProperty "prop_bitreq" prop_bitreq ]
+tests :: Spec
+tests = do
+  describe "Internal test functions" $ do
+      it "prop_bitreq" $ property prop_bitreq
 
-  , testGroup "Custom test cases"
-      [ testProperty "prop_composite_case" prop_composite_case ]
+  describe "Custom test cases" $ do
+      it "prop_composite_case" $ property prop_composite_case
 
-  , testGroup "getByteString"
-      [ testProperty "prop_getByteString_negative" prop_getByteString_negative ]
+  describe "getByteString" $ do
+      it "prop_getByteString_negative" $ property prop_getByteString_negative
 
-  , testGroup "getLazyByteString"
-      [ testProperty "getLazyByteString == getByteString"
+  describe "getLazyByteString" $ do
+      it "getLazyByteString == getByteString" $ property
                      prop_getLazyByteString_equal_to_ByteString
-      , testProperty "getLazyByteString == getByteString (with shift)"
+      it "getLazyByteString == getByteString (with shift)" $ property
                      prop_getLazyByteString_equal_to_ByteString2
-      ]
 
-  , testGroup "isEmpty"
-      [ testProperty "prop_isEmptyOfEmptyEmpty" prop_isEmptyOfEmptyEmpty
-      , testProperty "prop_isEmptyOfNonEmptyEmpty" prop_isEmptyOfNonEmptyEmpty
-      , testProperty "prop_isEmptyOfConsumedEmpty" prop_isEmptyOfConsumedEmpty
-      , testProperty "prop_isEmptyOfNotConsumedNotEmpty" prop_isEmptyOfNotConsumedNotEmpty
-      ]
+  describe "isEmpty" $ do
+      it "prop_isEmptyOfEmptyEmpty" $ property prop_isEmptyOfEmptyEmpty
+      it "prop_isEmptyOfNonEmptyEmpty" $ property prop_isEmptyOfNonEmptyEmpty
+      it "prop_isEmptyOfConsumedEmpty" $ property prop_isEmptyOfConsumedEmpty
+      it "prop_isEmptyOfNotConsumedNotEmpty" $ property prop_isEmptyOfNotConsumedNotEmpty
 
-  , testGroup "Fail"
-      [ testProperty "monadic fail" prop_fail ]
+  describe "Fail" $ do
+      it "monadic fail" $ property prop_fail
 
-  , testGroup "prop_bitput_with_get_from_binary"
-      [ testProperty "Word8"  (prop_bitput_with_get_from_binary :: W [Word8]  -> Property)
-      , testProperty "Word16" (prop_bitput_with_get_from_binary :: W [Word16] -> Property)
-      , testProperty "Word32" (prop_bitput_with_get_from_binary :: W [Word32] -> Property)
-      , testProperty "Word64" (prop_bitput_with_get_from_binary :: W [Word64] -> Property)
-      ]
+  describe "prop_bitput_with_get_from_binary" $ do
+      it "Word8" $ property  (prop_bitput_with_get_from_binary :: W [Word8]  -> Property)
+      it "Word16" $ property (prop_bitput_with_get_from_binary :: W [Word16] -> Property)
+      it "Word32" $ property (prop_bitput_with_get_from_binary :: W [Word32] -> Property)
+      it "Word64" $ property (prop_bitput_with_get_from_binary :: W [Word64] -> Property)
 
-  , testGroup "prop_bitget_with_put_from_binary"
-      [ testProperty "Word8"  (prop_bitget_with_put_from_binary :: W [Word8]  -> Property)
-      , testProperty "Word16" (prop_bitget_with_put_from_binary :: W [Word16] -> Property)
-      , testProperty "Word32" (prop_bitget_with_put_from_binary :: W [Word32] -> Property)
-      , testProperty "Word64" (prop_bitget_with_put_from_binary :: W [Word64] -> Property)
-      ]
+  describe "prop_bitget_with_put_from_binary" $ do
+      it "Word8" $ property  (prop_bitget_with_put_from_binary :: W [Word8]  -> Property)
+      it "Word16" $ property (prop_bitget_with_put_from_binary :: W [Word16] -> Property)
+      it "Word32" $ property (prop_bitget_with_put_from_binary :: W [Word32] -> Property)
+      it "Word64" $ property (prop_bitget_with_put_from_binary :: W [Word64] -> Property)
 
-  , testGroup "prop_compare_put_with_naive"
-      [ testProperty "Word8"  (prop_compare_put_with_naive :: W [Word8]  -> Property)
-      , testProperty "Word16" (prop_compare_put_with_naive :: W [Word16] -> Property)
-      , testProperty "Word32" (prop_compare_put_with_naive :: W [Word32] -> Property)
-      , testProperty "Word64" (prop_compare_put_with_naive :: W [Word64] -> Property)
-      ]
+  describe "prop_compare_put_with_naive" $ do
+      it "Word8" $ property  (prop_compare_put_with_naive :: W [Word8]  -> Property)
+      it "Word16" $ property (prop_compare_put_with_naive :: W [Word16] -> Property)
+      it "Word32" $ property (prop_compare_put_with_naive :: W [Word32] -> Property)
+      it "Word64" $ property (prop_compare_put_with_naive :: W [Word64] -> Property)
 
-  , testGroup "prop_compare_get_with_naive"
-      [ testProperty "Word8"  (prop_compare_get_with_naive:: W [Word8]  -> Property)
-      , testProperty "Word16" (prop_compare_get_with_naive:: W [Word16] -> Property)
-      , testProperty "Word32" (prop_compare_get_with_naive:: W [Word32] -> Property)
-      , testProperty "Word64" (prop_compare_get_with_naive:: W [Word64] -> Property)
-      ]
+  describe "prop_compare_get_with_naive" $ do
+      it "Word8" $ property  (prop_compare_get_with_naive:: W [Word8]  -> Property)
+      it "Word16" $ property (prop_compare_get_with_naive:: W [Word16] -> Property)
+      it "Word32" $ property (prop_compare_get_with_naive:: W [Word32] -> Property)
+      it "Word64" $ property (prop_compare_get_with_naive:: W [Word64] -> Property)
 
-  , testGroup "prop_put_with_bitreq"
-      [ testProperty "Word8"  (prop_putget_with_bitreq :: W Word8  -> Property)
-      , testProperty "Word16" (prop_putget_with_bitreq :: W Word16 -> Property)
-      , testProperty "Word32" (prop_putget_with_bitreq :: W Word32 -> Property)
-      , testProperty "Word64" (prop_putget_with_bitreq :: W Word64 -> Property)
-      ]
+  describe "prop_put_with_bitreq" $ do
+      it "Word8" $ property  (prop_putget_with_bitreq :: W Word8  -> Property)
+      it "Word16" $ property (prop_putget_with_bitreq :: W Word16 -> Property)
+      it "Word32" $ property (prop_putget_with_bitreq :: W Word32 -> Property)
+      it "Word64" $ property (prop_putget_with_bitreq :: W Word64 -> Property)
 
-  , testGroup "prop_putget_list_simple"
-      [ testProperty "Bool"  (prop_putget_list_simple :: W [Bool]   -> Property)
-      , testProperty "Word8" (prop_putget_list_simple :: W [Word8]  -> Property)
-      , testProperty "Word16" (prop_putget_list_simple :: W [Word16] -> Property)
-      , testProperty "Word32" (prop_putget_list_simple :: W [Word32] -> Property)
-      , testProperty "Word64" (prop_putget_list_simple :: W [Word64] -> Property)
-      ]
+  describe "prop_putget_list_simple" $ do
+      it "Bool" $ property  (prop_putget_list_simple :: W [Bool]   -> Property)
+      it "Word8" $ property (prop_putget_list_simple :: W [Word8]  -> Property)
+      it "Word16" $ property (prop_putget_list_simple :: W [Word16] -> Property)
+      it "Word32" $ property (prop_putget_list_simple :: W [Word32] -> Property)
+      it "Word64" $ property (prop_putget_list_simple :: W [Word64] -> Property)
 
-  , testGroup "prop_putget_applicative_with_bitreq"
-      [ testProperty "Word8" (prop_putget_applicative_with_bitreq :: W [(Word8,Word8,Word8)]  -> Property)
-      , testProperty "Word16" (prop_putget_applicative_with_bitreq :: W [(Word16,Word16,Word16)] -> Property)
-      , testProperty "Word32" (prop_putget_applicative_with_bitreq :: W [(Word32,Word32,Word32)] -> Property)
-      , testProperty "Word64" (prop_putget_applicative_with_bitreq :: W [(Word64,Word64,Word64)] -> Property)
-      ]
+  describe "prop_putget_applicative_with_bitreq" $ do
+      it "Word8" $ property (prop_putget_applicative_with_bitreq :: W [(Word8,Word8,Word8)]  -> Property)
+      it "Word16" $ property (prop_putget_applicative_with_bitreq :: W [(Word16,Word16,Word16)] -> Property)
+      it "Word32" $ property (prop_putget_applicative_with_bitreq :: W [(Word32,Word32,Word32)] -> Property)
+      it "Word64" $ property (prop_putget_applicative_with_bitreq :: W [(Word64,Word64,Word64)] -> Property)
 
-  , testGroup "prop_putget_list_with_bitreq"
-      [ testProperty "Word8"  (prop_putget_list_with_bitreq :: W [Word8]  -> Property)
-      , testProperty "Word16" (prop_putget_list_with_bitreq :: W [Word16] -> Property)
-      , testProperty "Word32" (prop_putget_list_with_bitreq :: W [Word32] -> Property)
-      , testProperty "Word64" (prop_putget_list_with_bitreq :: W [Word64] -> Property)
-      ]
-  , testGroup "prop_bitget_bytestring_interspersed"
-      [ testProperty "Word8"  (prop_bitget_bytestring_interspersed :: W Word8  -> [B.ByteString] -> Property)
-      , testProperty "Word16" (prop_bitget_bytestring_interspersed :: W Word16 -> [B.ByteString] -> Property)
-      , testProperty "Word32" (prop_bitget_bytestring_interspersed :: W Word32 -> [B.ByteString] -> Property)
-      , testProperty "Word64" (prop_bitget_bytestring_interspersed :: W Word64 -> [B.ByteString] -> Property)
-      ]
-  , testGroup "Simulate programs"
-      [ testProperty "primitive" prop_primitive
-      , testProperty "many primitives in sequence" prop_program 
-      ]
-  ]
+  describe "prop_putget_list_with_bitreq" $ do
+      it "Word8" $ property  (prop_putget_list_with_bitreq :: W [Word8]  -> Property)
+      it "Word16" $ property (prop_putget_list_with_bitreq :: W [Word16] -> Property)
+      it "Word32" $ property (prop_putget_list_with_bitreq :: W [Word32] -> Property)
+      it "Word64" $ property (prop_putget_list_with_bitreq :: W [Word64] -> Property)
+  describe "prop_bitget_bytestring_interspersed" $ do
+      it "Word8" $ property  (prop_bitget_bytestring_interspersed :: W Word8  -> [B.ByteString] -> Property)
+      it "Word16" $ property (prop_bitget_bytestring_interspersed :: W Word16 -> [B.ByteString] -> Property)
+      it "Word32" $ property (prop_bitget_bytestring_interspersed :: W Word32 -> [B.ByteString] -> Property)
+      it "Word64" $ property (prop_bitget_bytestring_interspersed :: W Word64 -> [B.ByteString] -> Property)
+  describe "Simulate programs" $ do
+      it "primitive" $ property prop_primitive
+      it "many primitives in sequence" $ property prop_program
 
 prop_isEmptyOfEmptyEmpty :: Bool
 prop_isEmptyOfEmptyEmpty = runGet (runBitGet isEmpty) L.empty
