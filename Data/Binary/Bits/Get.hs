@@ -28,7 +28,7 @@
 --   * 'getByteString'
 --
 -- functions and run it with 'runBitGet'.
--- 
+--
 -- For the applicative style, compose the fuctions
 --
 --   * 'bool'
@@ -121,7 +121,7 @@ import GHC.Word
 -- check (checking that there is enough input) as the size of the block can be
 -- calculated statically. This is somewhat limiting as you cannot make the
 -- parsing depend on the input being parsed.
--- 
+--
 -- @
 --data IPV6Header = IPV6Header {
 --     ipv6Version :: 'Word8'
@@ -293,7 +293,7 @@ readWithoutOffset :: (Bits a, Num a)
 readWithoutOffset (S bs o) shifterL shifterR n
   | o /= 0 = error "readWithoutOffset: there is an offset"
 
-  | bit_offset n == 0 && byte_offset n <= 4 = 
+  | bit_offset n == 0 && byte_offset n <= 4 =
               let segs = byte_offset n
                   bn 0 = fromIntegral (unsafeHead bs)
                   bn n = (bn (n-1) `shifterL` 8) .|. fromIntegral (unsafeIndex bs n)
@@ -319,7 +319,7 @@ readWithOffset (S bs o) shifterL shifterR n
   | n <= 64 = let bits_in_msb = 8 - o
                   (n',top) = (n - bits_in_msb
                              , (fromIntegral (unsafeHead bs) .&. make_mask bits_in_msb) `shifterL` n')
-                    
+
                   segs = byte_offset n'
 
                   bn 0 = 0
@@ -342,9 +342,11 @@ newtype BitGet a = B { runState :: S -> Get (S,a) }
 
 instance Monad BitGet where
   return x = B $ \s -> return (s,x)
-  fail str = B $ \(S inp n) -> putBackState inp n >> fail str
   (B f) >>= g = B $ \s -> do (s',a) <- f s
                              runState (g a) s'
+
+instance MonadFail BitGet where
+  fail str = B $ \(S inp n) -> putBackState inp n >> fail str
 
 instance Functor BitGet where
   fmap f m = m >>= \a -> return (f a)
