@@ -10,6 +10,7 @@ description:
 author: Lennart Kolmodin
 build-type: Simple
 category: Data, Parsing
+extra-source-files: README.markdown
 license-file: LICENSE.txt
 license: BSD3
 maintainer: Taylor Fausak
