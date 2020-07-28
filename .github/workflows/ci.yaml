@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-18.04 ]
+        os: [ macos-10.15, ubuntu-18.04 ]
         ghc: [ '8.10' ]
         cabal: [ '3.2' ]
     runs-on: ${{ matrix.os }}
