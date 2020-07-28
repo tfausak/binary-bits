@@ -1,0 +1,21 @@
+# Change log
+
+## 0.5
+
+- Released on 2015-01-09.
+
+## 0.4
+
+- Released on 2015-01-09.
+
+## 0.3
+
+- Released on 2013-03-14.
+
+## 0.2
+
+- Released on 2012-10-28.
+
+## 0.1
+
+- Initially released on 2011-10-22.
