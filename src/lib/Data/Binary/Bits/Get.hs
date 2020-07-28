@@ -72,6 +72,8 @@ module Data.Binary.Bits.Get
 
             ) where
 
+import qualified Control.Monad.Fail as Fail
+
 import Data.Binary.Get as B ( runGet, Get, getByteString, getLazyByteString, isEmpty )
 import Data.Binary.Get.Internal as B ( get, put, ensureN )
 
@@ -333,7 +335,11 @@ instance Monad BitGet where
   (B f) >>= g = B $ \s -> do (s',a) <- f s
                              runState (g a) s'
 
-instance MonadFail BitGet where
+#if !MIN_VERSION_GLASGOW_HASKELL(8, 8, 1, 0)
+  fail = Fail.fail
+#endif
+
+instance Fail.MonadFail BitGet where
   fail str = B $ \(S inp n) -> putBackState inp n >> fail str
 
 instance Functor BitGet where
