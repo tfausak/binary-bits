@@ -20,9 +20,9 @@ source-repository head
 
 library
   build-depends:
-    base == 4.*
-    , binary >= 0.6.0.0
-    , bytestring
+    base >= 4.14.0 && < 4.15
+    , binary >= 0.8.8 && < 0.9
+    , bytestring >= 0.10.10 && < 0.11
   default-language: Haskell98
   exposed-modules:
     Data.Binary.Bits
@@ -35,13 +35,13 @@ library
 
 test-suite qc
   build-depends:
-    base == 4.*
-    , binary >= 0.6.0.0
+    base
+    , binary
     , binary-bits
     , bytestring
-    , hspec
-    , QuickCheck >= 2
-    , random
+    , hspec >= 2.7.1 && < 2.8
+    , QuickCheck >= 2.13.2 && < 2.14
+    , random >= 1.1 && < 1.2
   default-language: Haskell98
   hs-source-dirs: src/test
   main-is: Main.hs
