@@ -87,11 +87,6 @@ import Control.Applicative
 
 import Prelude as P
 
-#if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)
-import GHC.Base
-import GHC.Word
-#endif
-
 
 -- $bitget
 -- Parse bits using a monad.
@@ -457,45 +452,17 @@ byteString n | n > 0 = Block (n*8) (readByteString n)
 
 -- Unchecked shifts, from the package binary
 
+shiftl_w8 :: Word8 -> Int -> Word8
 shiftl_w16 :: Word16 -> Int -> Word16
 shiftl_w32 :: Word32 -> Int -> Word32
 shiftl_w64 :: Word64 -> Int -> Word64
 
-#if defined(__GLASGOW_HASKELL__) && !defined(__HADDOCK__)
-shiftl_w8  (W8#  w) (I# i) = W8# (w `uncheckedShiftL#`   i)
-shiftl_w16 (W16# w) (I# i) = W16# (w `uncheckedShiftL#`   i)
-shiftl_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftL#`   i)
+shiftl_w8 = unsafeShiftL
+shiftl_w16 = unsafeShiftL
+shiftl_w32 = unsafeShiftL
+shiftl_w64 = unsafeShiftL
 
-shiftr_w8  (W8#  w) (I# i) = W8# (w `uncheckedShiftRL#`   i)
-shiftr_w16 (W16# w) (I# i) = W16# (w `uncheckedShiftRL#`  i)
-shiftr_w32 (W32# w) (I# i) = W32# (w `uncheckedShiftRL#`  i)
-
-
-#if WORD_SIZE_IN_BITS < 64
-shiftl_w64 (W64# w) (I# i) = W64# (w `uncheckedShiftL64#`  i)
-shiftr_w64 (W64# w) (I# i) = W64# (w `uncheckedShiftRL64#` i)
-
-#if __GLASGOW_HASKELL__ <= 606
--- Exported by GHC.Word in GHC 6.8 and higher
-foreign import ccall unsafe "stg_uncheckedShiftL64"
-    uncheckedShiftL64#     :: Word64# -> Int# -> Word64#
-foreign import ccall unsafe "stg_uncheckedShiftRL64"
-    uncheckedShiftRL64#     :: Word64# -> Int# -> Word64#
-#endif
-
-#else
-shiftl_w64 (W64# w) (I# i) = W64# (w `uncheckedShiftL#`  i)
-shiftr_w64 (W64# w) (I# i) = W64# (w `uncheckedShiftRL#` i)
-#endif
-
-#else
-shiftl_w8 = shiftL
-shiftl_w16 = shiftL
-shiftl_w32 = shiftL
-shiftl_w64 = shiftL
-
-shiftr_w8 = shiftR
-shiftr_w16 = shiftR
-shiftr_w32 = shiftR
-shiftr_w64 = shiftR
-#endif
+shiftr_w8 = unsafeShiftR
+shiftr_w16 = unsafeShiftR
+shiftr_w32 = unsafeShiftR
+shiftr_w64 = unsafeShiftR
