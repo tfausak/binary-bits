@@ -13,8 +13,8 @@ class BinaryBit a where
   getBits :: Int -> Get.BitGet a
 
 instance BinaryBit Bool where
-  putBits _ = Put.putBool
-  getBits _ = Get.getBool
+  putBits = const Put.putBool
+  getBits = const Get.getBool
 
 instance BinaryBit Word.Word8 where
   putBits = Put.putWord8
