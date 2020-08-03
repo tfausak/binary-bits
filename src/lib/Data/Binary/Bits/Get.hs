@@ -208,6 +208,7 @@ readWord8 n (S bs o)
                  m = make_mask n
                  w' = (w `shiftr_w16` (16 - o - n)) .&. m
              in fromIntegral w'
+  | otherwise = error "readWord8: tried to read more than 8 bits"
 
 {-# INLINE readWord16be #-}
 readWord16be :: Int -> S -> Word16
@@ -298,6 +299,7 @@ readWithoutOffset (S bs o) shifterL shifterR n
 
                   w = msegs .|. lst
               in w
+  | otherwise = error "readWithoutOffset: tried to read more than 64 bits"
 
 readWithOffset :: (Bits a, Num a)
          => S -> (a -> Int -> a) -> (a -> Int -> a) -> Int -> a
@@ -320,6 +322,7 @@ readWithOffset (S bs o) shifterL shifterR n
 
                   w = top .|. mseg .|. lst
               in w
+  | otherwise = error "readWithOffset: tried to read more than 64 bits"
 
 -- | 'BitGet' is a monad, applicative and a functor. See 'runBitGet'
 -- for how to run it.
