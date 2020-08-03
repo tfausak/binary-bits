@@ -32,7 +32,6 @@ library
     Data.Binary.Bits.Get
     Data.Binary.Bits.Put
   ghc-options:
-    -O2
     -Wall
   hs-source-dirs: src/lib
 
