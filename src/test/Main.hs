@@ -375,7 +375,7 @@ type Program = [Primitive]
 instance QC.Arbitrary Primitive where
   arbitrary = do
     let gen c = do
-          let (maxBits, _) = (\w -> (Bits.bitSize w, c undefined w)) undefined
+          let (maxBits, _) = (\w -> (Bits.finiteBitSize w, c undefined w)) undefined
           bits <- QC.choose (0, maxBits)
           n <- QC.choose (0, fromIntegral (2^bits-1))
           return (c bits n)
