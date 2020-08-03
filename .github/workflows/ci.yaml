@@ -27,6 +27,6 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ${{ steps.setup-haskell.outputs.cabal-store }}
-          key: ${{ matrix.os }}-${{ matrix.ghc }}-${{ hashFiles('binary-bits.cabal') }}
+          key: ${{ matrix.os }}-${{ matrix.ghc }}-${{ hashFiles('caerbannog.cabal') }}
           restore-keys: ${{ matrix.os }}-${{ matrix.ghc }}-
       - run: cabal test --test-show-details direct

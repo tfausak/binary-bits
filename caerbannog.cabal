@@ -1,6 +1,6 @@
 cabal-version: >= 1.10
 
-name: binary-bits
+name: caerbannog
 version: 0.5
 synopsis: Bit parsing/writing on top of binary.
 description:
@@ -18,7 +18,7 @@ license: BSD3
 maintainer: Taylor Fausak
 
 source-repository head
-  location: https://github.com/tfausak/binary-bits
+  location: https://github.com/tfausak/caerbannog
   type: git
 
 library
@@ -40,7 +40,7 @@ test-suite test
   build-depends:
     base
     , binary
-    , binary-bits
+    , caerbannog
     , bytestring
     , hspec >= 2.7.1 && < 2.8
     , QuickCheck >= 2.13.2 && < 2.15
