@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-orphans #-}
-{-# LANGUAGE FlexibleInstances, FlexibleContexts, TupleSections #-}
+{-# LANGUAGE FlexibleInstances, FlexibleContexts #-}
 
 module Main ( main ) where
 
@@ -212,7 +212,7 @@ prop_bitget_bytestring_interspersed (W ws) bss = QC.property $
       g = mapM (\bs -> (,) <$> BB.getBits (bitreq ws) <*> BB.getByteString (B.length bs)) bss
       lbs = Binary.runPut (BB.runBitPut p)
       r = Binary.runGet (BB.runBitGet g) lbs
-  in map (ws,) bss == r
+  in map ((,) ws) bss == r
 
 -- | Test failing.
 prop_fail :: L.ByteString -> String -> QC.Property
