@@ -1,7 +1,7 @@
 cabal-version: >= 1.10
 
 name: caerbannog
-version: 0.6.0.0
+version: 0.6.0.1
 synopsis: Bit parsing/writing on top of binary.
 description:
   Bit parsing/writing on top of binary. Provides functions to read and write
