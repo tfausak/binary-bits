@@ -1,4 +1,4 @@
-{-# LANGUAGE MagicHash, BangPatterns, CPP #-}
+{-# LANGUAGE BangPatterns, CPP #-}
 
 -- | Parse bits easily. Parsing can be done either in a monadic style, or more
 -- efficiently, using the 'Applicative' style.
