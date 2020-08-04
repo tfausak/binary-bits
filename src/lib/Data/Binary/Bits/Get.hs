@@ -329,7 +329,7 @@ readWithOffset (S bs o) shifterL shifterR n
 newtype BitGet a = B { runState :: S -> Get (S,a) }
 
 instance Monad BitGet where
-  return x = B $ \s -> return (s,x)
+  return = pure
   (B f) >>= g = B $ \s -> do (s',a) <- f s
                              runState (g a) s'
 
@@ -344,7 +344,7 @@ instance Functor BitGet where
   fmap f m = m >>= \a -> return (f a)
 
 instance Applicative BitGet where
-  pure x = return x
+  pure x = B $ \s -> return (s,x)
   fm <*> m = fm >>= \f -> m >>= \v -> return (f v)
 
 -- | Run a 'BitGet' within the Binary packages 'Get' monad. If a byte has
