@@ -21,10 +21,6 @@ jobs:
             ghc: '8.6'
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - uses: actions/checkout@v2
       - id: setup-haskell
         uses: actions/setup-haskell@v1
@@ -38,10 +34,9 @@ jobs:
           restore-keys: ${{ matrix.os }}-${{ matrix.ghc }}-
       - run: cabal test --test-show-details direct
       - run: cabal sdist
-      - if: matrix.ghc == '8.10'
-        uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v2
         with:
           path: dist-newstyle/sdist/caerbannog-*.tar.gz
-          name: caerbannog-${{ matrix.os }}-${{ github.sha }}.tar.gz
-      - if: github.event.action == 'released'
+          name: caerbannog-${{ matrix.os }}-ghc-${{ matrix.ghc }}-${{ github.sha }}.tar.gz
+      - if: github.event_name == 'release' && github.event.action == 'released'
         run: cabal upload --username fozworth --password ${{ secrets.HACKAGE_PASSWORD }}
