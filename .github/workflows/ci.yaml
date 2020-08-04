@@ -39,4 +39,4 @@ jobs:
           path: dist-newstyle/sdist/caerbannog-*.tar.gz
           name: caerbannog-${{ matrix.os }}-ghc-${{ matrix.ghc }}-${{ github.sha }}.tar.gz
       - if: matrix.os == 'ubuntu-18.04' && matrix.ghc == '8.10' && github.event_name == 'release' && github.event.action == 'released'
-        run: cabal upload --username fozworth --password ${{ secrets.HACKAGE_PASSWORD }} "dist-newstyle/sdist/caerbannog-*.tar.gz"
+        run: cabal upload --username fozworth --password ${{ secrets.HACKAGE_PASSWORD }} dist-newstyle/sdist/caerbannog-${{ github.event.release.tag_name }}.tar.gz
