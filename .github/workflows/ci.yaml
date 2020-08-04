@@ -30,3 +30,8 @@ jobs:
           key: ${{ matrix.os }}-${{ matrix.ghc }}-${{ hashFiles('caerbannog.cabal') }}
           restore-keys: ${{ matrix.os }}-${{ matrix.ghc }}-
       - run: cabal test --test-show-details direct
+      - run: cabal sdist
+      - uses: actions/upload-artifact@v2
+        with:
+          path: dist-newstyle/sdist/caerbannog-*.tar.gz
+          name: caerbannog-${{ matrix.os }}-${{ github.sha }}.tar.gz
