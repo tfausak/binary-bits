@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-orphans #-}
 {-# LANGUAGE FlexibleInstances, FlexibleContexts, TupleSections #-}
 
 module Main ( main ) where
@@ -16,7 +17,6 @@ import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as L
 import qualified Data.Word as Word
 import qualified Foreign
-import qualified System.Random as Random
 import qualified Test.Hspec as Hspec
 import qualified Test.QuickCheck as QC
 
@@ -221,8 +221,8 @@ prop_fail lbs errMsg0 = QC.forAll (QC.choose (0, 8 * L.length lbs)) $ \len ->
       expectedBytesConsumed
         | bits == 0 = bytes
         | otherwise = bytes + 1
-      p = do BB.getByteString (fromIntegral bytes)
-             BB.getBits (fromIntegral bits) :: BB.BitGet Word.Word8
+      p = do _ <- BB.getByteString (fromIntegral bytes)
+             _ <- BB.getBits (fromIntegral bits) :: BB.BitGet Word.Word8
              fail errMsg0
       r = Binary.runGetIncremental (BB.runBitGet p) `Binary.pushChunks` lbs
   in case r of
@@ -242,8 +242,8 @@ bittable = [ (fromIntegral x, (1 `Bits.shiftL` x) - 1) | x <- [1..64] ]
 
 prop_bitreq :: W Word.Word64 -> QC.Property
 prop_bitreq (W w) = QC.property $
-  ( w == 0 && bitreq w == 1 )
-    || bitreq w == bitreq (w `Bits.shiftR` 1) + 1
+  ( w == 0 && bitreq w == (1 :: Integer) )
+    || bitreq w == bitreq (w `Bits.shiftR` 1) + (1 :: Integer)
 
 prop_composite_case :: Bool -> W Word.Word16 -> QC.Property
 prop_composite_case b (W w) = w < 0x8000 ==>
@@ -354,11 +354,6 @@ instance (QC.Arbitrary (W a), QC.Arbitrary (W b), QC.Arbitrary (W c)) => QC.Arbi
     arbitrary          = ((W .) .) . (,,) <$> arbitraryW <*> arbitraryW <*> arbitraryW
     shrink (W (a,b,c)) = ((W .) .) . (,,) <$> shrinkW a <*> shrinkW b <*> shrinkW c
 
-integralRandomR :: (Integral a, Random.RandomGen g) => (a,a) -> g -> (a,g)
-integralRandomR  (a,b) g = case Random.randomR (fromIntegral a :: Integer,
-                                         fromIntegral b :: Integer) g of
-                            (x,g) -> (fromIntegral x, g)
-
 data Primitive
   = Bool Bool
   | W8  Int Word.Word8
@@ -377,7 +372,7 @@ instance QC.Arbitrary Primitive where
     let gen c = do
           let (maxBits, _) = (\w -> (Bits.finiteBitSize w, c undefined w)) undefined
           bits <- QC.choose (0, maxBits)
-          n <- QC.choose (0, fromIntegral (2^bits-1))
+          n <- QC.choose (0, fromIntegral (2^bits-1 :: Integer))
           return (c bits n)
     QC.oneof
       [ Bool <$> QC.arbitrary
