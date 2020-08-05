@@ -2,10 +2,22 @@ cabal-version: >= 1.10
 
 name: caerbannog
 version: 0.6.0.2
-synopsis: Bit parsing/writing on top of binary.
+synopsis: That rabbit's got a vicious streak a mile wide!
 description:
-  Bit parsing/writing on top of binary. Provides functions to read and write
-  bits to and from 8\/16\/32\/64 words.
+  Caerbannog is a drop in replacement for the @binary-bits@ package. Unlike
+  @binary-bits@ Caerbannog works with GHC 8.10, 8.8, and 8.6.
+  .
+  The original package description of @binary-bits@ at version 0.5 was: "Bit
+  parsing\/writing on top of binary. Provides functions to read and write bits
+  to and from 8\/16\/32\/64 words."
+  .
+  Caerbannog allows you to do bit level gets and puts on top of the interface
+  provided by the @binary@ package. This can be useful for parsing or
+  generating binary formats that are not byte aligned.
+  .
+  There are many names for these types of actions: get and put, read and write,
+  parse and generate, deserialize and serialize, decode and encode. Caerbannog
+  doesn't care which word you use. It'll work anyway.
 
 author: Lennart Kolmodin
 build-type: Simple

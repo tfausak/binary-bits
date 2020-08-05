@@ -1,5 +1,10 @@
 # Change log
 
+## 0.6.0.2
+
+- Released on 2020-08-03.
+- First `caerbannog` release on Hackage.
+
 ## 0.5
 
 - Released on 2015-01-09.
