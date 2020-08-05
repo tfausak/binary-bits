@@ -1,5 +1,10 @@
 # Change log
 
+## 0.6.0.3
+
+- Released on 2020-08-04.
+- Improved package documentation.
+
 ## 0.6.0.2
 
 - Released on 2020-08-03.
