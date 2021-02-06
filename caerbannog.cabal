@@ -1,7 +1,7 @@
 cabal-version: >= 1.10
 
 name: caerbannog
-version: 0.6.0.3
+version: 0.6.0.4
 synopsis: That rabbit's got a vicious streak a mile wide!
 description:
   Caerbannog is a drop in replacement for the @binary-bits@ package. Unlike
