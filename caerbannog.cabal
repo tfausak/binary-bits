@@ -53,7 +53,7 @@ test-suite test
     , binary
     , caerbannog
     , bytestring
-    , hspec >= 2.7.6 && < 2.8
+    , hspec >= 2.7.6 && < 2.9
     , QuickCheck >= 2.13.2 && < 2.15
     , random >= 1.1 && < 1.2
   default-language: Haskell98
